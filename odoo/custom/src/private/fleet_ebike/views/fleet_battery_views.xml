@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id='fleet_battery_view_form' model='ir.ui.view'>
+        <field name="name">fleet.battery.form</field>
+        <field name="model">fleet.battery</field>
+        <field name="arch" type="xml">
+            <form string="Battery">
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="inactive,charging,inuse"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="return_action_to_open"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            context="{'xml_id':'fleet_battery_move_action'}"
+                            help="show the movement of this battery"
+                        >
+                            <field
+                                name="move_count"
+                                widget="statinfo"
+                                string="Movement"
+                            />
+                        </button>
+                        <button
+                            name="return_action_to_open"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            context="{'xml_id':'fleet_battery_soc_action'}"
+                            help="show the soc tracking of this battery"
+                        >
+                            <field name="soc_count" widget="statinfo" string="SOC" />
+                        </button>
+                        <button
+                            name="return_action_to_open"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            context="{'xml_id':'fleet_battery_soh_action'}"
+                            help="show the soc tracking of this battery"
+                        >
+                            <field name="soh_count" widget="statinfo" string="SOH" />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" placeholder="Battery S/N" />
+                        </h1>
+                        <label for="model" class="oe_edit_only" />
+                        <h2>
+                            <field
+                                name="model"
+                                class="oe_inline"
+                                placeholder="Battery Model"
+                            />
+                        </h2>
+                    </div>
+                    <group col="2">
+                        <group name="position">
+                            <field name="date_start" />
+                            <field name="vehicle_id" />
+                            <field name="locker_id" />
+                        </group>
+                        <group name="status">
+                            <field name="soh" widget="progressbar" />
+                            <field name="soc" widget="progressbar" />
+                            <field name="charging_cycle" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id='fleet_battery_view_tree' model='ir.ui.view'>
+        <field name="name">fleet.battery.tree</field>
+        <field name="model">fleet.battery</field>
+        <field name="arch" type="xml">
+            <tree string="Batteries" sample="1">
+                <field name="name" />
+                <field name="model" />
+                <field name="date_start" />
+                <field name="vehicle_id" />
+                <field name="locker_id" />
+                <field name="soh" widget="progressbar" />
+                <field name="soc" widget="progressbar" />
+                <field name="charging_cycle" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-warning="state == 'charging'"
+                    decoration-success="state == 'inuse'"
+                />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="fleet_battery_action" model="ir.actions.act_window">
+        <field name="name">Batteries</field>
+        <field name="res_model">fleet.battery</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        action="fleet_battery_action"
+        parent="fleet.fleet_vehicles"
+        id="fleet_battery_menu"
+        groups="fleet.fleet_group_user"
+        sequence="2"
+    />
+
+    <!-- Battery Movements -->
+
+   <record id='fleet_battery_move_view_form' model='ir.ui.view'>
+        <field name="name">fleet.battery.move.form</field>
+        <field name="model">fleet.battery.move</field>
+        <field name="arch" type="xml">
+            <form string="Battery Movements">
+                <sheet>
+                    <group>
+                        <field name="battery_id" />
+                        <field name="date_stamp" />
+                        <field name="vehicle_id" />
+                        <field name="locker_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id='fleet_battery_move_view_tree' model='ir.ui.view'>
+        <field name="name">fleet.battery.move.tree</field>
+        <field name="model">fleet.battery.move</field>
+        <field name="arch" type="xml">
+            <tree string="Battery Movement Logs" editable="top">
+                <field name="battery_id" />
+                <field name="date_stamp" />
+                <field name="vehicle_id" />
+                <field name="locker_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id='fleet_battery_move_action' model='ir.actions.act_window'>
+        <field name="name">Battery Movement Logs</field>
+        <field name="res_model">fleet.battery.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new battery movement log
+          </p>
+        </field>
+    </record>
+
+    <!-- Battery SOH -->
+
+   <record id='fleet_battery_soh_view_form' model='ir.ui.view'>
+        <field name="name">fleet.battery.soh.form</field>
+        <field name="model">fleet.battery.soh</field>
+        <field name="arch" type="xml">
+            <form string="Battery SOH">
+                <sheet>
+                    <group>
+                        <field name="battery_id" />
+                        <field name="date_stamp" />
+                        <field name="soh" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id='fleet_battery_soh_view_tree' model='ir.ui.view'>
+        <field name="name">fleet.battery.soh.tree</field>
+        <field name="model">fleet.battery.soh</field>
+        <field name="arch" type="xml">
+            <tree string="Battery SOH" editable="top">
+                <field name="battery_id" />
+                <field name="date_stamp" />
+                <field name="soh" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_battery_soh_view_graph" model="ir.ui.view">
+        <field name="name">fleet.battery.soh.graph</field>
+        <field name="model">fleet.battery.soh</field>
+        <field name="arch" type="xml">
+            <graph string="SOH Logs" sample="1" type="bar">
+                <field name="date_stamp" interval="hour" type="row" />
+                <field name="soh" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id='fleet_battery_soh_action' model='ir.actions.act_window'>
+        <field name="name">Battery SOH Logs</field>
+        <field name="res_model">fleet.battery.soh</field>
+        <field name="view_mode">graph,tree,form</field>
+        <field name="context" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new battery state of health log
+          </p>
+        </field>
+    </record>
+
+    <!-- Battery SOC -->
+
+   <record id='fleet_battery_soc_view_form' model='ir.ui.view'>
+        <field name="name">fleet.battery.soc.form</field>
+        <field name="model">fleet.battery.soc</field>
+        <field name="arch" type="xml">
+            <form string="Battery SOC">
+                <sheet>
+                    <group>
+                        <field name="battery_id" />
+                        <field name="date_stamp" />
+                        <field name="soc" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id='fleet_battery_soc_view_tree' model='ir.ui.view'>
+        <field name="name">fleet.battery.soc.tree</field>
+        <field name="model">fleet.battery.soc</field>
+        <field name="arch" type="xml">
+            <tree string="Battery SOC" editable="top">
+                <field name="battery_id" />
+                <field name="date_stamp" />
+                <field name="soc" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_battery_soc_view_graph" model="ir.ui.view">
+        <field name="name">fleet.battery.soc.graph</field>
+        <field name="model">fleet.battery.soc</field>
+        <field name="arch" type="xml">
+            <graph string="SOC Logs" sample="1" type="bar">
+                <field name="date_stamp" interval="hour" type="row" />
+                <field name="soc" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id='fleet_battery_soc_action' model='ir.actions.act_window'>
+        <field name="name">Battery SOC Logs</field>
+        <field name="res_model">fleet.battery.soc</field>
+        <field name="view_mode">graph,tree,form</field>
+        <field name="context" />
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new battery state of charge log
+          </p>
+        </field>
+    </record>
+
+</odoo>

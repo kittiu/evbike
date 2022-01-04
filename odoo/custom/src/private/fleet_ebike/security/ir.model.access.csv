@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_battery,access_fleet_battery,model_fleet_battery,base.group_user,1,1,1,1
+access_fleet_battery_soc,access_fleet_battery_soc,model_fleet_battery_soc,base.group_user,1,1,1,1
+access_fleet_battery_soh,access_fleet_battery_soh,model_fleet_battery_soh,base.group_user,1,1,1,1
+access_fleet_station,access_fleet_station,model_fleet_station,base.group_user,1,1,1,1
+access_fleet_station_locker,access_fleet_station_locker,model_fleet_station_locker,base.group_user,1,1,1,1
+access_fleet_battery_move,access_fleet_battery_move,model_fleet_battery_move,base.group_user,1,1,1,1
+access_fleet_vehicle_move,access_fleet_vehicle_move,model_fleet_vehicle_move,base.group_user,1,1,1,1
