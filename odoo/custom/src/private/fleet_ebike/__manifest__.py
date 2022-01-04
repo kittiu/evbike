@@ -11,6 +11,7 @@
     "data": [
         "views/fleet_battery_views.xml",
         "views/fleet_vehicle_views.xml",
+        "views/fleet_station_views.xml",
         "security/ir.model.access.csv",
     ],
     "installable": True,

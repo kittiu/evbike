@@ -14,6 +14,18 @@ class FleetVehicle(models.Model):
         comodel_name="fleet.vehicle.move",
         inverse_name="vehicle_id",
     )
+    latitude = fields.Float(
+        string="Last Latitude",
+        digits=(16, 5),
+        compute="_compute_vehicle_move",
+        store=True,
+    )
+    longitude = fields.Float(
+        string="Last Longitude",
+        digits=(16, 5),
+        compute="_compute_vehicle_move",
+        store=True,
+    )
     move_count = fields.Integer(
         compute="_compute_vehicle_move",
         store=True,
@@ -22,8 +34,11 @@ class FleetVehicle(models.Model):
     @api.depends("vehicle_move_ids")
     def _compute_vehicle_move(self):
         for rec in self:
+            vehicle_move = rec.vehicle_move_ids[:1]
             rec.update(
                 {
+                    "latitude": vehicle_move.latitude,
+                    "longitude": vehicle_move.longitude,
                     "move_count": len(rec.vehicle_move_ids),
                 }
             )

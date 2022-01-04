@@ -18,17 +18,21 @@
                     <field name="move_count" widget="statinfo" string="Waypoints" />
                 </button>
             </xpath>
-            <group string="Driver" position="after">
+            <field name="acquisition_date" position="before">
+                <field name="latitude" />
+                <field name="longitude" />
+            </field>
+            <xpath expr="/form/sheet/group/group" position="after">
                 <group string="Batteries">
                     <field name="battery_ids" nolabel="1">
-                        <tree>
+                        <tree create="0">
                             <field name="name" />
                             <field name="soh" widget="progressbar" />
                             <field name="soc" widget="progressbar" />
                         </tree>
                     </field>
                 </group>
-            </group>
+            </xpath>
         </field>
     </record>
 

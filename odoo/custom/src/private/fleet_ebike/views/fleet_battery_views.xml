@@ -117,8 +117,16 @@
     </record>
 
     <menuitem
+        id="menu_battery_root"
+        parent="fleet.menu_root"
+        name="Batteries"
+        groups="fleet.fleet_group_user"
+        sequence="2"
+    />
+
+    <menuitem
         action="fleet_battery_action"
-        parent="fleet.fleet_vehicles"
+        parent="menu_battery_root"
         id="fleet_battery_menu"
         groups="fleet.fleet_group_user"
         sequence="2"

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id='fleet_station_view_form' model='ir.ui.view'>
+        <field name="name">fleet.station.form</field>
+        <field name="model">fleet.station</field>
+        <field name="arch" type="xml">
+            <form string="Station">
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="inactive,active"
+                        options="{'clickable': '1'}"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" required="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="address" />
+                            <field name="locker_count" />
+                        </group>
+                        <group>
+                            <field name="image" widget="image" nolabel="1" />
+                        </group>
+                    </group>
+                    <field name="locker_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="name" />
+                            <field name="charging" widget="boolean_toggle" />
+                            <field name="battery_id" />
+                            <field name="battery_soc" widget="progressbar" />
+                        </tree>
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="name" />
+                                    <field name="charging" widget="boolean_toggle" />
+                                </group>
+                                <group>
+                                    <field name="battery_id" />
+                                    <field name="battery_soc" widget="progressbar" />
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id='fleet_station_view_tree' model='ir.ui.view'>
+        <field name="name">fleet.station.tree</field>
+        <field name="model">fleet.station</field>
+        <field name="arch" type="xml">
+            <tree string="Stations" sample="1">
+                <field name="name" />
+                <field name="address" />
+                <field name="locker_count" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-warning="state == 'inactive'"
+                    decoration-success="state == 'active'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_station_action" model="ir.actions.act_window">
+        <field name="name">Stations</field>
+        <field name="res_model">fleet.station</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        action="fleet_station_action"
+        parent="menu_battery_root"
+        id="fleet_station_menu"
+        groups="fleet.fleet_group_user"
+        sequence="1"
+    />
+
+</odoo>
